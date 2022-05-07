@@ -10,7 +10,6 @@ const  Characters  = lazy(() => import("./components/Characters"))
 const CharacterDetails = lazy(() => import("./components/CharacterDetails"));
 
 
-
 function App() {
 
   const [data, setData] = useState([]);
@@ -22,7 +21,7 @@ function App() {
         return response.json();
     })
     .then(json => {
-        console.log(json);
+        
         setData(json.Brastlewark);
     })
     .catch(e => {

@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 
+
 import {
     List,
     Container,
@@ -35,7 +36,7 @@ type Props = {
     return  <div className="characters">
       <Container maxWidth="sm" >
       
-      <Box sx={{ bgcolor: 'white', height: '100vh' }} >
+      <Box sx={{ bgcolor: 'white', minHeight: '100vh' }} >
 
         <Grid container justifyContent={"center"} pt={2}>
       <Pagination

@@ -41,11 +41,11 @@ const CharacterDetails:React.FC<Props> = props => {
 
     const id = params.id;
 
-    const user = props.data[Number(id)]; 
+    const user = props.data.length >0?props.data[Number(id)]:[]; 
 
-    console.log(user.friends)
+   
 
-    const friends = props.data.filter(obj => {
+    const friends = props.data.length > 0?props.data.filter(obj => {
 
         let result = false;
         for(let i=0; i < user.friends.length; i++){
@@ -54,9 +54,9 @@ const CharacterDetails:React.FC<Props> = props => {
 
         return result;
 
-    })
+    }):[]
 
-    console.log(friends)
+   
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -74,7 +74,7 @@ const CharacterDetails:React.FC<Props> = props => {
 
         <Container maxWidth="sm">
             
-            <Box sx={{ bgcolor: 'white', height: '100vh' }} p={2} >
+            <Box sx={{ bgcolor: 'white', minHeight: '100vh' }} p={2} >
                 {props.data.length > 0?<>
                  
                  <Grid container justifyContent={"center"} alignItems="center" direction={"column"}>
