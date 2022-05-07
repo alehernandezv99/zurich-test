@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Zurich Test
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+#Description
+
+This projects fetchs data from https://raw.githubusercontent.com/rrafols/mobile_test/master/data.json returning a collection of characters which are displayed in a list. Each character has a set of properties that are visible from the list, and you can click on them to see the full details.
+
+It uses Material UI libraries for the User Interface and slightly customized to make it a bit more original
 
 ## Available Scripts
 
