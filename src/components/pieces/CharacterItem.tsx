@@ -19,7 +19,8 @@ type CharacterItemProps = {
   thumbnail:string,
   name:String,
   professions:Array<string>,
-  age:number
+  age:number,
+  cb?:any
 }
 
 
@@ -27,14 +28,18 @@ const CharacterItem:React.FC<CharacterItemProps> = props => {
 
     const navigate = useNavigate()
 
-    const handleClick = (id:string) => {
+    const handleClick = (id:string, cb?:any) => {
 
       return () => {
-      navigate(`/character/${id}`)
+      navigate(`/character/${id}`);
+
+      if(cb !== undefined){
+        cb();
+      }
       }
     }
 
-    return <ListItemButton alignItems="flex-start" key={props.id} onClick={handleClick(String(props.id))}>
+    return <ListItemButton alignItems="flex-start"  onClick={handleClick(String(props.id), props.cb)}>
     <ListItemAvatar>
       <Avatar alt="Avatar Image" src={props.thumbnail} />
     </ListItemAvatar>

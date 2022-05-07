@@ -16,20 +16,12 @@ import {
 
 } from "@mui/material";
 
+import CharacterItem from "./pieces/CharacterItem";
+
 import TabPanel from "./pieces/TabPanel";
 
 type Props = {
-    /*
- age:number,
- friends:Array<string>,
- hair_color:string,
- height:number,
- id:number,
- name:string,
- professions:Array<string>,
- thumbnail:string,
- weight:number
- */
+
  data:Array<any>
 }
 
@@ -51,12 +43,32 @@ const CharacterDetails:React.FC<Props> = props => {
 
     const user = props.data[Number(id)]; 
 
+    console.log(user.friends)
+
+    const friends = props.data.filter(obj => {
+
+        let result = false;
+        for(let i=0; i < user.friends.length; i++){
+           result = result || obj.name === user.friends[i]
+        }
+
+        return result;
+
+    })
+
+    console.log(friends)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-   
+   const calculateBirthDate = (character:any) => {
+       let currentDate = new Date();
+
+       currentDate.setHours(currentDate.getHours() - character.age*365*24);
+
+       return `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+   }
 
     return <div className="character-details">
 
@@ -86,39 +98,49 @@ const CharacterDetails:React.FC<Props> = props => {
         <Typography variant="h5">Basic Details</Typography>
 
         <Grid container mt={2}>
-            <Grid sm={6} xs={6}>
+            <Grid item sm={6} xs={6}>
                 <Typography >Height</Typography>
             </Grid>
 
-            <Grid sm={6} xs={6}>
+            <Grid item sm={6} xs={6}>
                 <Typography color={"primary"}>{user.height}</Typography>
             </Grid>
         </Grid>
 
         <Grid container mt={2}>
-            <Grid sm={6} xs={6}>
+            <Grid item sm={6} xs={6}>
                 <Typography >Weight</Typography>
             </Grid>
 
-            <Grid sm={6} xs={6}>
+            <Grid item sm={6} xs={6}>
                 <Typography color={"primary"}>{user.weight}</Typography>
             </Grid>
         </Grid>
 
         <Grid container mt={2}>
-            <Grid sm={6} xs={6}>
+            <Grid item sm={6} xs={6}>
                 <Typography >Hair Color</Typography>
             </Grid>
 
-            <Grid sm={6} xs={6}>
+            <Grid item sm={6} xs={6}>
                 <Typography color={"primary"}>{user.hair_color}</Typography>
+            </Grid>
+        </Grid>
+
+        <Grid container mt={2}>
+        <Grid item sm={6} xs={6}>
+                <Typography >Birthdate</Typography>
+            </Grid>
+
+            <Grid item sm={6} xs={6}>
+                <Typography color={"primary"}>{calculateBirthDate(user)}</Typography>
             </Grid>
         </Grid>
 
         <Typography mt={3} variant="h5">Other</Typography>
 
         <Grid container mt={2}>
-            <Grid sm={12}>
+            <Grid item sm={12}>
                 <Typography >Professions</Typography>
 
                 <Stack direction="row" flexWrap={"wrap"} spacing={0}>
@@ -137,7 +159,20 @@ const CharacterDetails:React.FC<Props> = props => {
 
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Friends
+        {friends.length > 0?friends.map((e:any, i:number) => {
+            const {name, id, age, professions, thumbnail} = e;
+            return  <CharacterItem 
+            key={id}
+            cb={() => {
+                setValue(0)
+            }}
+            name={name}
+            id={id}
+            age={age}
+            professions={professions}
+            thumbnail={thumbnail}
+            />
+        }):<Typography>{`No friends :(`}</Typography>}
       </TabPanel>
  
     </Box>

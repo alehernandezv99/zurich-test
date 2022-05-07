@@ -1,5 +1,7 @@
 import React,{useState, useEffect} from "react";
 
+import {useNavigate, useLocation} from "react-router-dom"
+
 import {
     AppBar,
     Box,
@@ -10,27 +12,39 @@ import {
   } from "@mui/material"
   
   import {
-    Menu
+    ArrowBack
   } from "@mui/icons-material"
 
 export const Navbar:React.FC<any> = props => {
 
+    const navigate = useNavigate();
+
+    const location = useLocation()
+
+   const backstack = () => {
+       navigate(-1)
+    }
+
+    const mainPage = () => {
+        navigate("/")
+    }
+
     return  <Box sx={{ flexGrow: 1 }}>
     <AppBar position="sticky" >
       <Toolbar>
-        <IconButton
+        {location.pathname !== "/"?<IconButton
+        onClick={backstack}
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
         >
-          <Menu/>
-        </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Zurich Test
-        </Typography>
-        <Button color="inherit">Login</Button>
+          <ArrowBack/>
+        </IconButton>:null}
+
+        <Button variant="text" onClick={mainPage} color="inherit">Zurich Test</Button>
+      
       </Toolbar>
     </AppBar>
   </Box>

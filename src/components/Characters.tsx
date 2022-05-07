@@ -1,19 +1,17 @@
-import React from "react";
-import {useNavigate} from "react-router-dom"
+import React,{useState} from "react";
 
 import {
     List,
-    ListItemButton,
-    Divider,
-    ListItemText,
-    ListItemAvatar,
-    Avatar,
-    Typography,
     Container,
-    Box
+    Box,
+    CircularProgress,
+    Pagination,
+    Grid
 } from "@mui/material";
 
 import CharacterItem from "./pieces/CharacterItem";
+
+import usePagination from "./Pagination";
 
 type Props = {
     data:Array<any>
@@ -21,46 +19,49 @@ type Props = {
 
  const Characters:React.FC<Props> = (props) =>{
 
-    const navigate = useNavigate()
+  let [page, setPage] = useState(1);
+  const PER_PAGE = 24;
 
-    const handleClick = (id:string) => {
+  const count = Math.ceil(props.data.length / PER_PAGE);
 
-      return () => {
-      navigate(`/character/${id}`)
-      }
-    }
+  const _DATA = usePagination([...props.data], PER_PAGE);
+
+  const handleChange = (e:any, p:any) => {
+    setPage(p);
+    _DATA.jump(p);
+  };
+  
 
     return  <div className="characters">
       <Container maxWidth="sm" >
+      
       <Box sx={{ bgcolor: 'white', height: '100vh' }} >
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
 
-        {props.data.map((e:any,i:number) => {
-            return  <ListItemButton alignItems="flex-start" key={e.id} onClick={handleClick(e.id)}>
-            <ListItemAvatar>
-              <Avatar alt="Avatar Image" src={e.thumbnail} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={e.name}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: 'inline' }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    {"Age " + e.age +" "}
-                  </Typography>
-                  {"- "}
-                  { e.professions.map((e2:any, i2:number) => {
-                      return `${e2}, `
-                  })}
-                </React.Fragment>
-              }
+        <Grid container justifyContent={"center"} pt={2}>
+      <Pagination
+        count={count}
+        size="large"
+        page={page}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChange}
+      />
+      </Grid>
+
+        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+        
+        {_DATA.currentData().map((e:any,i:number) => {
+          const {name, id, age, professions, thumbnail} = e;
+            return  <CharacterItem 
+            key={id}
+            name={name}
+            id={id}
+            age={age}
+            professions={professions}
+            thumbnail={thumbnail}
             />
-          </ListItemButton>
         })}
+
     </List>
 
     </Box>
