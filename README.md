@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-#Description
+# Description
 
 This projects fetchs data from https://raw.githubusercontent.com/rrafols/mobile_test/master/data.json returning a collection of characters which are displayed in a list. Each character has a set of properties that are visible from the list, and you can click on them to see the full details.
 
